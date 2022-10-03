@@ -1,95 +1,76 @@
 #!/usr/bin/python3
-"""
-Inherits from Rectangle;
-Inits superclass' id, width (as size), height (as size), x, y
-Contains public attribute size
-Prints [Square] (<id>) <x>/<y> - <size>
-Updates attributes: arg1=id, arg2=size, arg3=x, arg4=y
-Returns dictionary representation of attributes
-"""
-
-
+'''
+Write the class Square that
+inherits from Rectangle:
+'''
 from models.rectangle import Rectangle
 
 
 class Square(Rectangle):
-    """
-    defines class Square; inherits from class Rectangle
-    Inherited Attributes:
-        id
-        __weight        __height
-        __x             __y
-    Class Attributes:
-        size
-    Inherted Methods:
-        Base.init(self, id=None)
-        Rectangle.init(self, width, height, x=0, y=0, id=None)
-        update(self, *args, **kwargs)
-        width(self)      width(self, value)
-        height(self)     height(self, value)
-        x(self)          x(self, value)
-        y(self)          y(self, value)
-        area(self)       display(self)
-    Methods:
-        __str__
-        __init__(self, size, x=0, y=0, id=None)
-        update(self, *args, **kwargs)
-        size(self)       size(self, value)
-        to_dictionary(self)
-    """
+    '''
+    Square class inherits from Rectangle
+    '''
+
     def __init__(self, size, x=0, y=0, id=None):
-        """Initialize square"""
+        '''
+        Constructor
+        '''
         super().__init__(size, size, x, y, id)
         self.size = size
 
     @property
     def size(self):
-        """Getter size"""
+        '''
+        size getter
+        '''
         return self.width
 
     @size.setter
     def size(self, value):
-        """Setter size - sets width and height as size"""
+        '''
+        size setter
+        '''
         self.width = value
         self.height = value
 
-    def __str__(self):
-        """Prints [Square] (<id>) <x>/<y> - <size>"""
-        return "[{:s}] ({:d}) {:d}/{:d} - {:d}".format(
-            self.__class__.__name__, self.id, self.x, self.y,
-            self.size)
-
     def update(self, *args, **kwargs):
-        """
-        If args: set attributes in this order: id, width, height, x, y
-        If no args given: set attributes according to kwargs
-        """
-        if args:
-            for key, value in enumerate(args):
-                if key == 0:
-                    self.id = value
-                elif key == 1:
-                    self.size = value
-                elif key == 2:
-                    self.x = value
-                else:
-                    self.y = value
+        '''
+        Makes args variadic
+        '''
+        argc = len(args)
+        if argc > 0:
+            try:
+                self.id = args[0]
+                self.size = args[1]
+                self.x = args[2]
+                self.y = args[3]
+            except BaseException:
+                pass
         else:
-            for k, v in kwargs.items():
-                if k == "id":
-                    self.id = v
-                if k == "size":
-                    self.size = v
-                if k == "x":
-                    self.x = v
-                if k == "y":
-                    self.y = v
+            if 'id' in kwargs:
+                self.id = kwargs['id']
+            if 'size' in kwargs:
+                self.size = kwargs['size']
+            if 'x' in kwargs:
+                self.x = kwargs['x']
+            if 'y' in kwargs:
+                self.y = kwargs['y']
 
     def to_dictionary(self):
-        """Return dictionary representation"""
+        '''
+       Pull the parameters out in
+       the function as a dictionary
+        '''
         return {
-            "id": self.id,
-            "size": self.width,
-            "x": self.x,
-            "y": self.y
+            'id': self.id,
+            'x': self.x,
+            'size': self.size,
+            'y': self.y
         }
+
+    def __str__(self):
+        '''
+        String representation
+        '''
+        return '[Square] ({}) {}/{} - {}'.format(self.id,
+                                                 self.x, self.y, self.size)
